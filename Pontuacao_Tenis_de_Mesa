@@ -1,0 +1,181 @@
+import { StyleSheet, Text, View, Button } from 'react-native';
+import {SafeAreaProvider,SafeAreaView} from 'react-native-safe-area-context';
+import { useState } from 'react';
+export default function App() {
+  const [pont1,atualizarPont1] = useState(0);
+  const [pont2,atualizarPont2] = useState(0);
+  const [sets1,atualizarSets1] = useState(0);
+  const [sets2,atualizarSets2] = useState(0);
+  return (
+    <SafeAreaProvider style={{flex:1}}>
+    <SafeAreaView style={{flex:1}}>
+    <View style={styles.container}>
+    <View style={styles.cabecalho}>
+      <Text style={styles.titulo}>Tênis de Mesa</Text>
+      <Text style={styles.subtitulo}>Placar</Text>
+    </View>
+    <View style={styles.conteudo}>
+    <View style={styles.placar}>
+    <Text style={styles.nome}>Jogador 1</Text>
+    <Text style={styles.pontos}>{pont1}</Text>
+    <Text style={styles.sets}> Sets: {sets1}</Text>
+    <View style={styles.botoes}>
+    <Button title="+1"
+    onPress = { () => {
+      if(pont1 < 10){
+        atualizarPont1(pont1 + 1);
+      }else{
+        atualizarPont1(pont1 + 1);
+        if(Math.abs(pont1+1-pont2) >= 2){
+            atualizarSets1(sets1+1);
+            atualizarPont1(pont1-pont1);
+            atualizarPont2(pont2-pont2);
+          if(7-(sets1+1+sets2) < Math.abs(sets1+1-sets2)){
+            alert(`Jogador 1 ganhou, de ${sets1+1} Sets a ${sets2} Sets`);
+            atualizarSets1(sets1-sets1);
+            atualizarSets2(sets2-sets2);
+          }
+        }
+      }
+    }}
+    />
+    <Button title="-1"
+    onPress = {()=> {
+      if(pont1>0){
+        atualizarPont1(pont1-1);
+      }
+    }}
+    />
+    </View>
+    </View>
+    <View><Text style={styles.versus}>X</Text></View>
+    <View style={styles.placar}>
+    <Text style={styles.nome}>Jogador 2</Text>
+    <Text style={styles.pontos}>{pont2}</Text>
+    <Text style={styles.sets}>Sets: {sets2}</Text>
+    <View style={styles.botoes}>
+    <Button title="+1"
+    onPress = { () => {
+      if(pont2 < 10){
+        atualizarPont2(pont2 + 1);
+      }else{
+        atualizarPont2(pont2 + 1);
+        if(Math.abs(pont2+1-pont1)>= 2){
+            atualizarSets2(sets2+1);
+            atualizarPont1(pont1-pont1);
+            atualizarPont2(pont2-pont2);
+          if(7-(sets1+sets2+1) < Math.abs(sets2+1-sets1)){
+            alert(`Jogador 2 ganhou, de ${sets2+1} Sets a ${sets1} Sets`);
+            atualizarSets1(sets1-sets1);
+            atualizarSets2(sets2-sets2);
+          }
+        }
+      }
+    }}
+    />
+    <Button title="-1"
+    onPress = {()=> {
+      if(pont2>0){
+        atualizarPont2(pont2-1);
+      }
+    }}
+    />
+    </View>
+    </View>
+    </View>
+    <View style={styles.reset}>
+    <Button title="Resetar Placar"
+    onPress={()=> {
+      atualizarPont1(pont1-pont1);
+      atualizarPont2(pont2-pont2);
+      atualizarSets1(sets1-sets1);
+      atualizarSets2(sets2-sets2);
+    }}/>
+    </View>
+    </View>
+    </SafeAreaView>
+    </SafeAreaProvider>
+  );
+}
+
+  const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    backgroundColor:'#0F172A',
+  },
+
+  cabecalho:{
+    backgroundColor:'#1E293B',
+    alignItems:'center',
+    paddingTop:15,
+    paddingBottom:15,
+  },
+
+  titulo:{
+    fontSize:32,
+    fontWeight:'bold',
+    color:'#F8FAFC',
+    fontFamily:'monospace',
+  },
+
+  subtitulo:{
+    fontSize:20,
+    fontStyle:'italic',
+    color:'#94A3B8',
+    marginTop:3,
+    fontFamily:'monospace',
+  },
+
+  conteudo:{
+    flex:1,
+    justifyContent:'space-evenly',
+    alignItems:'center',
+  },
+
+  placar:{
+    width:'85%',
+    backgroundColor:'#1E293B',
+    borderRadius:20,
+    padding:10,
+    alignItems:'center',
+    borderWidth:2,
+    borderColor:'#06B6D4',
+  },
+
+  nome:{
+    fontSize:24,
+    fontWeight:'bold',
+    color:'#94A3B8',
+    fontFamily:'monospace',
+  },
+
+  pontos:{
+    fontSize:70,
+    fontWeight:'bold',
+    color:'#06B6D4',
+  },
+
+  sets:{
+    fontSize:25,
+    color:'#94A3B8',
+    marginBottom:15,
+    fontFamily:'monospace',
+  },
+  botoes:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    width:150,
+  },
+
+  versus:{
+    fontSize:24,
+    fontWeight:'bold',
+    color:'#06B6D4',
+  },
+
+  reset:{
+    paddingHorizontal:20,
+    paddingVertical:10,
+  },
+});
+
